@@ -1,57 +1,31 @@
-import React from 'react'
-import Navbar from './NavbarQ'
-import "./quest.css"
-import QuestDataR from './QuestDataR'
-import imag1 from "../images/Firebond/div-1.png"
-import imga2 from "../images/image3.png"
-import QuestDataL from './QuestDataL'
+import React, { useState, useEffect } from 'react';
+import YoutubeAPI from '../../apis/youtube';
+import keys from '../../resources/youtube/keys.json'
 
 function Quest() {
-    return (
-        <div>
-            <Navbar />
-            <div id='QuestMainDiv'>
-                <div id="columdiv">
-                    <QuestDataR
-                        imgsrc={imag1}
-                        imgsrc2={imga2}
-                        hname="Reboot World "
-                        name="Reboot World"
-                        link="/Quest"
-                        pname="Reboot World"
-                        xppoints="30xp"
-                        task="5"
-                        ttask="5"
-                        likes="687"
-                        para1="Spacekayak is a web3 native design studio helping 
-                        startups go from 0-1. This creative team is creating the next 
-                        stream of internet companies at the intersection of culture x tech x 
-                        community through their thesis of seamless on-chain experiences. "
-                        para2="Follow Twitter, subscribe to the Newsletter and share with your
-                        frens on Twitter to get Cryptocity NFT Wall 
-                        proof and a chance to win from $100 raffle"
-                    />
+    const [liked, setLiked] = useState(false);
 
-                </div>
-                <div id='flexdiv'>
-                    <QuestDataL
-                        nametask="Sign up - https://weekinweb3.substack.com/ a screenshot & upload here"
-                        xppoints="30xp"
-                    />
-                    <QuestDataL
-                        nametask="Sign up - https://weekinweb3.substack.com/ a screenshot & upload here"
-                        xppoints="30xp"
-                    />
-                    <QuestDataL
-                        nametask="Sign up - https://weekinweb3.substack.com/ a screenshot & upload here"
-                        xppoints="30xp"
-                    />
-                </div>
-
-            </div>
-
-        </div>
-    )
+    useEffect(() => {
+      async function fetchData() {
+        const response = await YoutubeAPI.handleLike();
+        if (response === 'like') {
+          setLiked(true);
+        } else {
+          setLiked(false);
+        }
+      }
+      fetchData();
+    }, []);
+const url = `https://www.youtube.com/watch?v=${keys.videoId}`
+  return (
+    <div>
+    <div>
+        
+      <a href={url} target="_blank" rel="noopener noreferrer">https://www.youtube.com/watch?v=zNABOcxGkt8</a><br></br>
+      <label>{liked ? 'Liked' : 'Not liked'}</label>
+    </div>
+  </div>
+  );
 }
 
-export default Quest
+export default Quest;
